@@ -19,7 +19,6 @@ var LibraryRouting = function (BookApp) {
     });
 
   BookApp.vent.on('search:term', function (searchTerm) {
-    console.log('diu diu diu');
     Backbone.history.navigate('search/' + searchTerm);
   });
 

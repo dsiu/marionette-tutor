@@ -28,12 +28,10 @@ var LibraryApp = function (BookApp) {
 
         _.bindAll(this, 'search', 'moreBooks');
         BookApp.vent.on('search:term', function (term) {
-          console.log('search:term = ' + term);
           self.search(term);
         });
 
         BookApp.vent.on('search:more', function () {
-          console.log('need to load more books!');
           self.moreBooks();
         });
 
@@ -83,7 +81,6 @@ var LibraryApp = function (BookApp) {
 
         var self = this;
         BookApp.vent.trigger("search:start");
-        console.log('search:start');
         var query = encodeURIComponent(searchTerm) + '&maxResults=' + this.maxResults + '&startIndex=' + (this.page * this.maxResults) + '&fields=totalItems,items(id,volumeInfo/title,volumeInfo/subtitle,volumeInfo/authors,volumeInfo/publishedDate,volumeInfo/description,volumeInfo/imageLinks)';
 
         return $.ajax({
@@ -92,7 +89,6 @@ var LibraryApp = function (BookApp) {
                  data     : 'q=' + query,
                  success  : function (res) {
                    BookApp.vent.trigger("search:stop");
-                   console.log('search:stop');
 
                    if (res.totalItems == 0) {
                      callback([]);

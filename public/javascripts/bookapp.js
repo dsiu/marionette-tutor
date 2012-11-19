@@ -74,6 +74,56 @@
   globals.require.brunch = true;
 })();
 
+window.require.define({"book_app/bookapp.closer": function(exports, require, module) {
+  /**
+   * Created with IntelliJ IDEA.
+   * User: dsiu
+   * Date: 11/19/12
+   * Time: 5:20 PM
+   * To change this template use File | Settings | File Templates.
+   */
+
+  var closeTemplate = require('./views/templates/close-template');
+
+
+  var Closer = function(BookApp) {
+
+    var Closer = {};
+
+    Closer.DefaultView = Backbone.Marionette.ItemView.extend(
+      {
+        template  : closeTemplate,
+        className : 'close'
+      });
+
+    Closer.Router = Backbone.Marionette.AppRouter.extend(
+      {
+        appRoutes : {
+          'close' : 'close'
+        }
+      });
+
+    Closer.close = function () {
+      var closeView = new Closer.DefaultView();
+      BookApp.content.show(closeView);
+      Backbone.history.navigate('close');
+    };
+
+    BookApp.addInitializer(function () {
+      BookApp.Closer.router = new Closer.Router(
+        {
+          controller : BookApp.Closer
+        });
+
+      BookApp.vent.trigger('routing:started');
+    });
+
+    return Closer;
+  };
+
+  module.exports = Closer;
+}});
+
 window.require.define({"book_app/bookapp": function(exports, require, module) {
   var BookApp = new Backbone.Marionette.Application();
 
@@ -106,11 +156,33 @@ window.require.define({"book_app/bookapp": function(exports, require, module) {
   BookApp.addRegions(
     {
       content : '#content',
+      menu : "#menu",
       modal : ModalRegion
+    });
+
+  BookApp.MenuView = Backbone.Marionette.View.extend(
+    {
+      el : '#menu',
+
+      events : {
+        'click #menu .js-menu-books' : 'showLibraryApp',
+        'click #menu .js-menu-close' : 'closeApp'
+      },
+
+      showLibraryApp : function(e) {
+        e.preventDefault();
+        BookApp.LibraryApp.defaultSearch();
+      },
+
+      closeApp : function(e) {
+        e.preventDefault();
+      }
     });
 
   BookApp.vent.on('layout:rendered', function() {
     //  console.log('layout rendered');
+    var menu = new BookApp.MenuView();
+    BookApp.menu.attachView(menu);
   });
 
   BookApp.vent.on('routing:started', function() {
@@ -271,12 +343,10 @@ window.require.define({"book_app/bookapp.library_app": function(exports, require
 
           _.bindAll(this, 'search', 'moreBooks');
           BookApp.vent.on('search:term', function (term) {
-            console.log('search:term = ' + term);
             self.search(term);
           });
 
           BookApp.vent.on('search:more', function () {
-            console.log('need to load more books!');
             self.moreBooks();
           });
 
@@ -326,7 +396,6 @@ window.require.define({"book_app/bookapp.library_app": function(exports, require
 
           var self = this;
           BookApp.vent.trigger("search:start");
-          console.log('search:start');
           var query = encodeURIComponent(searchTerm) + '&maxResults=' + this.maxResults + '&startIndex=' + (this.page * this.maxResults) + '&fields=totalItems,items(id,volumeInfo/title,volumeInfo/subtitle,volumeInfo/authors,volumeInfo/publishedDate,volumeInfo/description,volumeInfo/imageLinks)';
 
           return $.ajax({
@@ -335,7 +404,6 @@ window.require.define({"book_app/bookapp.library_app": function(exports, require
                    data     : 'q=' + query,
                    success  : function (res) {
                      BookApp.vent.trigger("search:stop");
-                     console.log('search:stop');
 
                      if (res.totalItems == 0) {
                        callback([]);
@@ -427,7 +495,6 @@ window.require.define({"book_app/bookapp.library_app.routing": function(exports,
       });
 
     BookApp.vent.on('search:term', function (searchTerm) {
-      console.log('diu diu diu');
       Backbone.history.navigate('search/' + searchTerm);
     });
 
@@ -454,10 +521,12 @@ window.require.define({"book_app/initialize": function(exports, require, module)
     var LibraryApp = require('./bookapp.library_app')(BookApp);
     var LibraryRouting = require('./bookapp.library_app.routing')(BookApp);
     var BookList = require('./bookapp.library_app.book_list')(BookApp);
+    var Closer = require('./bookapp.closer')(BookApp);
 
     BookApp.LibraryApp = LibraryApp;
     BookApp.LibraryApp.BookList = BookList;
     BookApp.LibraryRouting = LibraryRouting;
+    BookApp.Closer = Closer;
 
     BookApp.start();
   });

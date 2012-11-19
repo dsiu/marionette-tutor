@@ -29,11 +29,33 @@ var ModalRegion = Backbone.Marionette.Region.extend({
 BookApp.addRegions(
   {
     content : '#content',
+    menu : "#menu",
     modal : ModalRegion
+  });
+
+BookApp.MenuView = Backbone.Marionette.View.extend(
+  {
+    el : '#menu',
+
+    events : {
+      'click #menu .js-menu-books' : 'showLibraryApp',
+      'click #menu .js-menu-close' : 'closeApp'
+    },
+
+    showLibraryApp : function(e) {
+      e.preventDefault();
+      BookApp.LibraryApp.defaultSearch();
+    },
+
+    closeApp : function(e) {
+      e.preventDefault();
+    }
   });
 
 BookApp.vent.on('layout:rendered', function() {
   //  console.log('layout rendered');
+  var menu = new BookApp.MenuView();
+  BookApp.menu.attachView(menu);
 });
 
 BookApp.vent.on('routing:started', function() {
