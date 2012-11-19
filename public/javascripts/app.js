@@ -82,7 +82,6 @@ window.require.define({"book_app/bookapp": function(exports, require, module) {
     el: "#modal",
 
     constructor: function () {
-      console.log('modal constructor');
       _.bindAll(this);
       Backbone.Marionette.Region.prototype.constructor.apply(this, arguments);
       this.on("show", this.showModal, this);
@@ -111,7 +110,12 @@ window.require.define({"book_app/bookapp": function(exports, require, module) {
     });
 
   BookApp.vent.on('layout:rendered', function() {
-    console.log('layout rendered');
+    //  console.log('layout rendered');
+  });
+
+  BookApp.vent.on('routing:started', function() {
+    if ( ! Backbone.History.started )
+      Backbone.history.start();
   });
 
   module.exports = BookApp;
@@ -142,7 +146,6 @@ window.require.define({"book_app/bookapp.library_app.book_list": function(export
         },
 
         showBookDetail : function() {
-          console.log('showBookDetail');
           var detailView = new BookDetailView({model : this.model});
           BookApp.modal.show(detailView);
         }
@@ -208,7 +211,6 @@ window.require.define({"book_app/bookapp.library_app.book_list": function(export
 
         search: function() {
           var searchTerm = this.$('#searchTerm').val().trim();
-          console.log(searchTerm);
           if (searchTerm.length > 0) {
             BookApp.vent.trigger('search:term', searchTerm);
           } else {
@@ -372,6 +374,17 @@ window.require.define({"book_app/bookapp.library_app": function(exports, require
     // Init Books Collection
     LibraryApp.Books = new Books();
 
+    LibraryApp.search = function(term) {
+      LibraryApp.initializeLayout();
+      BookApp.LibraryApp.BookList.showBooks(LibraryApp.Books);
+      BookApp.vent.trigger('search:term', term);
+    };
+
+    LibraryApp.defaultSearch = function() {
+      LibraryApp.search('Neuromarketing');
+    };
+
+
     // Init New Layout
     LibraryApp.initializeLayout = function () {
       LibraryApp.layout = new Layout();
@@ -392,21 +405,59 @@ window.require.define({"book_app/bookapp.library_app": function(exports, require
   
 }});
 
+window.require.define({"book_app/bookapp.library_app.routing": function(exports, require, module) {
+  /**
+   * Created with IntelliJ IDEA.
+   * User: dsiu
+   * Date: 11/19/12
+   * Time: 4:46 PM
+   * To change this template use File | Settings | File Templates.
+   */
+
+
+  var LibraryRouting = function (BookApp) {
+    var LibraryRouting = {};
+
+    LibraryRouting.Router = Backbone.Marionette.AppRouter.extend(
+      {
+        appRoutes : {
+          ""                   : "defaultSearch",
+          "search/:searchTerm" : "search"
+        }
+      });
+
+    BookApp.vent.on('search:term', function (searchTerm) {
+      console.log('diu diu diu');
+      Backbone.history.navigate('search/' + searchTerm);
+    });
+
+    BookApp.addInitializer(function () {
+      LibraryRouting.router = new LibraryRouting.Router(
+        {
+          controller : BookApp.LibraryApp
+        });
+
+      BookApp.vent.trigger("routing:started");
+    });
+
+    return LibraryRouting;
+  };
+
+  module.exports = LibraryRouting;
+  
+}});
+
 window.require.define({"book_app/initialize": function(exports, require, module) {
   $(function() {
 
     var BookApp = require('./bookapp');
     var LibraryApp = require('./bookapp.library_app')(BookApp);
+    var LibraryRouting = require('./bookapp.library_app.routing')(BookApp);
     var BookList = require('./bookapp.library_app.book_list')(BookApp);
 
     BookApp.LibraryApp = LibraryApp;
     BookApp.LibraryApp.BookList = BookList;
-
-    BookApp.addInitializer(function(){
-      BookApp.LibraryApp.initializeLayout();
-  //    BookApp.LibraryApp.Books.search("c++");
-       BookApp.vent.trigger('search:term', "food");
-    });
+    BookApp.LibraryRouting = LibraryRouting;
 
     BookApp.start();
   });

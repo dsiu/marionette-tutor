@@ -21,7 +21,6 @@ var BookList = function(BookApp) {
       },
 
       showBookDetail : function() {
-        console.log('showBookDetail');
         var detailView = new BookDetailView({model : this.model});
         BookApp.modal.show(detailView);
       }
@@ -87,7 +86,6 @@ var BookList = function(BookApp) {
 
       search: function() {
         var searchTerm = this.$('#searchTerm').val().trim();
-        console.log(searchTerm);
         if (searchTerm.length > 0) {
           BookApp.vent.trigger('search:term', searchTerm);
         } else {

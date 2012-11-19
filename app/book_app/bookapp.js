@@ -5,7 +5,6 @@ var ModalRegion = Backbone.Marionette.Region.extend({
   el: "#modal",
 
   constructor: function () {
-    console.log('modal constructor');
     _.bindAll(this);
     Backbone.Marionette.Region.prototype.constructor.apply(this, arguments);
     this.on("show", this.showModal, this);
@@ -34,7 +33,12 @@ BookApp.addRegions(
   });
 
 BookApp.vent.on('layout:rendered', function() {
-  console.log('layout rendered');
+  //  console.log('layout rendered');
+});
+
+BookApp.vent.on('routing:started', function() {
+  if ( ! Backbone.History.started )
+    Backbone.history.start();
 });
 
 module.exports = BookApp;

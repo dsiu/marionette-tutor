@@ -131,6 +131,17 @@ var LibraryApp = function (BookApp) {
   // Init Books Collection
   LibraryApp.Books = new Books();
 
+  LibraryApp.search = function(term) {
+    LibraryApp.initializeLayout();
+    BookApp.LibraryApp.BookList.showBooks(LibraryApp.Books);
+    BookApp.vent.trigger('search:term', term);
+  };
+
+  LibraryApp.defaultSearch = function() {
+    LibraryApp.search('Neuromarketing');
+  };
+
+
   // Init New Layout
   LibraryApp.initializeLayout = function () {
     LibraryApp.layout = new Layout();
