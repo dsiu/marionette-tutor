@@ -1,12 +1,12 @@
-var layout = require('./views/layouts/library-layout');
+var library_layout = require('./views/layouts/library-layout');
+var BookApp = require('./bookapp');
 
-var LibraryApp = function (BookApp) {
+BookApp.module('LibraryApp', function(LibraryApp, BookApp, Backbone, Marionette, $, _) {
 
-  var LibraryApp = {};
-
+  // LibraryApp Layout Class
   var Layout = Backbone.Marionette.Layout.extend(
     {
-      template : layout,
+      template : library_layout,
 
       regions : {
         search : "#searchBar",
@@ -14,11 +14,10 @@ var LibraryApp = function (BookApp) {
       }
     });
 
-
-  // Book Model
+  // Book Model Class
   var Book = Backbone.Model.extend();
 
-  // Books Collection
+  // Books Collection Class
   var Books = Backbone.Collection.extend(
     {
       model : Book,
@@ -137,7 +136,6 @@ var LibraryApp = function (BookApp) {
     LibraryApp.search('Neuromarketing');
   };
 
-
   // Init New Layout
   LibraryApp.initializeLayout = function () {
     LibraryApp.layout = new Layout();
@@ -149,9 +147,6 @@ var LibraryApp = function (BookApp) {
     BookApp.content.show(BookApp.LibraryApp.layout);
   };
 
-  // return
-  return LibraryApp;
+});
 
-};
-
-module.exports = LibraryApp;
+// module.exports = LibraryApp;

@@ -6,9 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
+var BookApp = require('./bookapp');
 
-var LibraryRouting = function (BookApp) {
-  var LibraryRouting = {};
+BookApp.module('LibraryRouting', function (LibraryRouting, BookApp, Backbone, Marionette, $, _) {
 
   LibraryRouting.Router = Backbone.Marionette.AppRouter.extend(
     {
@@ -32,6 +32,4 @@ var LibraryRouting = function (BookApp) {
   });
 
   return LibraryRouting;
-};
-
-module.exports = LibraryRouting;
+});

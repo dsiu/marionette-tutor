@@ -53,7 +53,6 @@ BookApp.MenuView = Backbone.Marionette.View.extend(
   });
 
 BookApp.vent.on('layout:rendered', function() {
-  //  console.log('layout rendered');
   var menu = new BookApp.MenuView();
   BookApp.menu.attachView(menu);
 });

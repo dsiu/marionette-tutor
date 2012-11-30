@@ -7,11 +7,9 @@
  */
 
 var closeTemplate = require('./views/templates/close-template');
+var BookApp = require('./bookapp');
 
-
-var Closer = function(BookApp) {
-
-  var Closer = {};
+BookApp.module('Closer', function(Closer, BookApp, Backbone, Marionette, $, _) {
 
   Closer.DefaultView = Backbone.Marionette.ItemView.extend(
     {
@@ -42,6 +40,4 @@ var Closer = function(BookApp) {
   });
 
   return Closer;
-};
-
-module.exports = Closer;
+});

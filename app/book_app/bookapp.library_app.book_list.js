@@ -1,17 +1,18 @@
+var BookApp = require('./bookapp');
 var bookTemplate = require('./views/templates/book-template');
 var bookListTemplate = require('./views/templates/book-list-template');
 var bookDetailTemplate = require('./views/templates/book-detail-template');
 
-var BookList = function(BookApp) {
+BookApp.module('LibraryApp.BookList', function(BookList, BookApp, Backbone, Marionette, $, _) {
 
-  var BookList = {};
-
+  // BookDetailView Class
   var BookDetailView = Backbone.Marionette.ItemView.extend(
     {
       template : bookDetailTemplate,
       className : "modal bookDetail"
     });
 
+  // BookView Class
   var BookView = Backbone.Marionette.ItemView.extend(
     {
       template : bookTemplate,
@@ -26,6 +27,7 @@ var BookList = function(BookApp) {
       }
     });
 
+  // BookListC Class
   var BookListView = Backbone.Marionette.CompositeView.extend(
     {
       template : bookListTemplate,
@@ -66,6 +68,7 @@ var BookList = function(BookApp) {
 
     });
 
+  // SearchView Class
   var SearchView = Backbone.View.extend(
     {
       el: "#searchBar",
@@ -107,8 +110,6 @@ var BookList = function(BookApp) {
     var searchView = new SearchView();
     BookApp.LibraryApp.layout.search.attachView(searchView);
   });
-  return BookList;
-};
+});
 
-module.exports = BookList;
 

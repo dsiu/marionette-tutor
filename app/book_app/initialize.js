@@ -1,15 +1,14 @@
 $(function() {
 
+  // The main app
   var BookApp = require('./bookapp');
-  var LibraryApp = require('./bookapp.library_app')(BookApp);
-  var LibraryRouting = require('./bookapp.library_app.routing')(BookApp);
-  var BookList = require('./bookapp.library_app.book_list')(BookApp);
-  var Closer = require('./bookapp.closer')(BookApp);
 
-  BookApp.LibraryApp = LibraryApp;
-  BookApp.LibraryApp.BookList = BookList;
-  BookApp.LibraryRouting = LibraryRouting;
-  BookApp.Closer = Closer;
+  // load up all the modules
+  var LibraryApp = require('./bookapp.library_app');
+  var LibraryRouting = require('./bookapp.library_app.routing');
+  var BookList = require('./bookapp.library_app.book_list');
+  var Closer = require('./bookapp.closer');
 
   BookApp.start();
+
 });

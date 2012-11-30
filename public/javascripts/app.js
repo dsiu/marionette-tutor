@@ -84,11 +84,9 @@ window.require.define({"book_app/bookapp.closer": function(exports, require, mod
    */
 
   var closeTemplate = require('./views/templates/close-template');
+  var BookApp = require('./bookapp');
 
-
-  var Closer = function(BookApp) {
-
-    var Closer = {};
+  BookApp.module('Closer', function(Closer, BookApp, Backbone, Marionette, $, _) {
 
     Closer.DefaultView = Backbone.Marionette.ItemView.extend(
       {
@@ -119,9 +117,8 @@ window.require.define({"book_app/bookapp.closer": function(exports, require, mod
     });
 
     return Closer;
-  };
-
-  module.exports = Closer;
+  });
+  
 }});
 
 window.require.define({"book_app/bookapp": function(exports, require, module) {
@@ -180,7 +177,6 @@ window.require.define({"book_app/bookapp": function(exports, require, module) {
     });
 
   BookApp.vent.on('layout:rendered', function() {
-    //  console.log('layout rendered');
     var menu = new BookApp.MenuView();
     BookApp.menu.attachView(menu);
   });
@@ -195,20 +191,21 @@ window.require.define({"book_app/bookapp": function(exports, require, module) {
 }});
 
 window.require.define({"book_app/bookapp.library_app.book_list": function(exports, require, module) {
+  var BookApp = require('./bookapp');
   var bookTemplate = require('./views/templates/book-template');
   var bookListTemplate = require('./views/templates/book-list-template');
   var bookDetailTemplate = require('./views/templates/book-detail-template');
 
-  var BookList = function(BookApp) {
+  BookApp.module('LibraryApp.BookList', function(BookList, BookApp, Backbone, Marionette, $, _) {
 
-    var BookList = {};
-
+    // BookDetailView Class
     var BookDetailView = Backbone.Marionette.ItemView.extend(
       {
         template : bookDetailTemplate,
         className : "modal bookDetail"
       });
 
+    // BookView Class
     var BookView = Backbone.Marionette.ItemView.extend(
       {
         template : bookTemplate,
@@ -223,6 +220,7 @@ window.require.define({"book_app/bookapp.library_app.book_list": function(export
         }
       });
 
+    // BookListC Class
     var BookListView = Backbone.Marionette.CompositeView.extend(
       {
         template : bookListTemplate,
@@ -263,6 +261,7 @@ window.require.define({"book_app/bookapp.library_app.book_list": function(export
 
       });
 
+    // SearchView Class
     var SearchView = Backbone.View.extend(
       {
         el: "#searchBar",
@@ -304,24 +303,22 @@ window.require.define({"book_app/bookapp.library_app.book_list": function(export
       var searchView = new SearchView();
       BookApp.LibraryApp.layout.search.attachView(searchView);
     });
-    return BookList;
-  };
+  });
 
-  module.exports = BookList;
 
   
 }});
 
 window.require.define({"book_app/bookapp.library_app": function(exports, require, module) {
-  var layout = require('./views/layouts/library-layout');
+  var library_layout = require('./views/layouts/library-layout');
+  var BookApp = require('./bookapp');
 
-  var LibraryApp = function (BookApp) {
+  BookApp.module('LibraryApp', function(LibraryApp, BookApp, Backbone, Marionette, $, _) {
 
-    var LibraryApp = {};
-
+    // LibraryApp Layout Class
     var Layout = Backbone.Marionette.Layout.extend(
       {
-        template : layout,
+        template : library_layout,
 
         regions : {
           search : "#searchBar",
@@ -329,11 +326,10 @@ window.require.define({"book_app/bookapp.library_app": function(exports, require
         }
       });
 
-
-    // Book Model
+    // Book Model Class
     var Book = Backbone.Model.extend();
 
-    // Books Collection
+    // Books Collection Class
     var Books = Backbone.Collection.extend(
       {
         model : Book,
@@ -452,7 +448,6 @@ window.require.define({"book_app/bookapp.library_app": function(exports, require
       LibraryApp.search('Neuromarketing');
     };
 
-
     // Init New Layout
     LibraryApp.initializeLayout = function () {
       LibraryApp.layout = new Layout();
@@ -464,12 +459,9 @@ window.require.define({"book_app/bookapp.library_app": function(exports, require
       BookApp.content.show(BookApp.LibraryApp.layout);
     };
 
-    // return
-    return LibraryApp;
+  });
 
-  };
-
-  module.exports = LibraryApp;
+  // module.exports = LibraryApp;
   
 }});
 
@@ -482,9 +474,9 @@ window.require.define({"book_app/bookapp.library_app.routing": function(exports,
    * To change this template use File | Settings | File Templates.
    */
 
+  var BookApp = require('./bookapp');
 
-  var LibraryRouting = function (BookApp) {
-    var LibraryRouting = {};
+  BookApp.module('LibraryRouting', function (LibraryRouting, BookApp, Backbone, Marionette, $, _) {
 
     LibraryRouting.Router = Backbone.Marionette.AppRouter.extend(
       {
@@ -508,27 +500,24 @@ window.require.define({"book_app/bookapp.library_app.routing": function(exports,
     });
 
     return LibraryRouting;
-  };
-
-  module.exports = LibraryRouting;
+  });
   
 }});
 
 window.require.define({"book_app/initialize": function(exports, require, module) {
   $(function() {
 
+    // The main app
     var BookApp = require('./bookapp');
-    var LibraryApp = require('./bookapp.library_app')(BookApp);
-    var LibraryRouting = require('./bookapp.library_app.routing')(BookApp);
-    var BookList = require('./bookapp.library_app.book_list')(BookApp);
-    var Closer = require('./bookapp.closer')(BookApp);
 
-    BookApp.LibraryApp = LibraryApp;
-    BookApp.LibraryApp.BookList = BookList;
-    BookApp.LibraryRouting = LibraryRouting;
-    BookApp.Closer = Closer;
+    // load up all the modules
+    var LibraryApp = require('./bookapp.library_app');
+    var LibraryRouting = require('./bookapp.library_app.routing');
+    var BookList = require('./bookapp.library_app.book_list');
+    var Closer = require('./bookapp.closer');
 
     BookApp.start();
+
   });
   
 }});
