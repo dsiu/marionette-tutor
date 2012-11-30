@@ -522,3 +522,162 @@ window.require.define({"book_app/initialize": function(exports, require, module)
   
 }});
 
+window.require.define({"book_app/views/layouts/library-layout": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var foundHelper, self=this;
+
+
+    return "<div id=\"searchBar\">\n    Search : <input type=\"text\" name=\"search\" autocomplete=\"off\" id=\"searchTerm\" value=\"\" />\n    <img src=\"images/loader.gif\" alt=\"Loading...\" id=\"spinner\" />\n</div>\n\n<div id=\"bookContainer\"></div>";});
+}});
+
+window.require.define({"book_app/views/templates/book-detail-template": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var buffer = "", stack1, stack2, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+  function program1(depth0,data) {
+    
+    var buffer = "", stack1;
+    buffer += "\n                  ";
+    foundHelper = helpers.thumbnail;
+    stack1 = foundHelper || depth0.thumbnail;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "thumbnail", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "\n                ";
+    return buffer;}
+
+  function program3(depth0,data) {
+    
+    
+    return "\n                  http://placehold.it/100x150\n                ";}
+
+  function program5(depth0,data) {
+    
+    var buffer = "", stack1;
+    buffer += " <h2>";
+    foundHelper = helpers.subtitle;
+    stack1 = foundHelper || depth0.subtitle;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "subtitle", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "</h2> ";
+    return buffer;}
+
+  function program7(depth0,data) {
+    
+    var buffer = "", stack1;
+    buffer += " ";
+    foundHelper = helpers.description;
+    stack1 = foundHelper || depth0.description;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "description", { hash: {} }); }
+    buffer += escapeExpression(stack1) + " ";
+    return buffer;}
+
+  function program9(depth0,data) {
+    
+    
+    return "No description found";}
+
+    buffer += "<a class=\"close\" data-dismiss=\"modal\">x</a>\n    <div class=\"imgBook\">\n      <img src=\"";
+    foundHelper = helpers.thumbnail;
+    stack1 = foundHelper || depth0.thumbnail;
+    stack2 = helpers['if'];
+    tmp1 = self.program(1, program1, data);
+    tmp1.hash = {};
+    tmp1.fn = tmp1;
+    tmp1.inverse = self.program(3, program3, data);
+    stack1 = stack2.call(depth0, stack1, tmp1);
+    if(stack1 || stack1 === 0) { buffer += stack1; }
+    buffer += "\"\n       />\n    </div>\n    <h1>";
+    foundHelper = helpers.title;
+    stack1 = foundHelper || depth0.title;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "title", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "</h1>\n\n     ";
+    foundHelper = helpers.subtitle;
+    stack1 = foundHelper || depth0.subtitle;
+    stack2 = helpers['if'];
+    tmp1 = self.program(5, program5, data);
+    tmp1.hash = {};
+    tmp1.fn = tmp1;
+    tmp1.inverse = self.noop;
+    stack1 = stack2.call(depth0, stack1, tmp1);
+    if(stack1 || stack1 === 0) { buffer += stack1; }
+    buffer += "\n     ";
+    foundHelper = helpers.description;
+    stack1 = foundHelper || depth0.description;
+    stack2 = helpers['if'];
+    tmp1 = self.program(7, program7, data);
+    tmp1.hash = {};
+    tmp1.fn = tmp1;
+    tmp1.inverse = self.program(9, program9, data);
+    stack1 = stack2.call(depth0, stack1, tmp1);
+    if(stack1 || stack1 === 0) { buffer += stack1; }
+    buffer += "\n\n    <b>Google link :</b> <a href=\"http://books.google.fr/books?id=";
+    foundHelper = helpers.googleId;
+    stack1 = foundHelper || depth0.googleId;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "googleId", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "\" target=\"_blank\">http://books.google.fr/books?id=";
+    foundHelper = helpers.googleId;
+    stack1 = foundHelper || depth0.googleId;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "googleId", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "</a>\n";
+    return buffer;});
+}});
+
+window.require.define({"book_app/views/templates/book-list-template": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var foundHelper, self=this;
+
+
+    return "<div style=\"display:table;width:100%;height:100%;\">\n    <img src=\"images/shadow-search.png\" style=\"position:absolute;left: 0px;top: 0px;\"/>\n    <img src=\"images/shadow-search-right.png\" style=\"position:absolute;right: 0px;top: 0px;\"/>\n    <div class=\"leftBar\"></div>\n    <div class=\"books\"></div>\n    <div class=\"rightBar\"></div>\n</div>";});
+}});
+
+window.require.define({"book_app/views/templates/book-template": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var buffer = "", stack1, stack2, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+  function program1(depth0,data) {
+    
+    var buffer = "", stack1;
+    buffer += "\n            ";
+    foundHelper = helpers.thumbnail;
+    stack1 = foundHelper || depth0.thumbnail;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "thumbnail", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "\n          ";
+    return buffer;}
+
+  function program3(depth0,data) {
+    
+    
+    return "\n            http://placehold.it/100x150\n          ";}
+
+    buffer += "<img src=\"";
+    foundHelper = helpers.thumbnail;
+    stack1 = foundHelper || depth0.thumbnail;
+    stack2 = helpers['if'];
+    tmp1 = self.program(1, program1, data);
+    tmp1.hash = {};
+    tmp1.fn = tmp1;
+    tmp1.inverse = self.program(3, program3, data);
+    stack1 = stack2.call(depth0, stack1, tmp1);
+    if(stack1 || stack1 === 0) { buffer += stack1; }
+    buffer += "\"\n     alt=\"\" class=\"book\" />";
+    return buffer;});
+}});
+
+window.require.define({"book_app/views/templates/close-template": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var foundHelper, self=this;
+
+
+    return "<p>That's all, folks !</p>";});
+}});
+

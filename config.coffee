@@ -15,7 +15,7 @@ exports.config =
       joinTo:
         'javascripts/catapp.js': /^app(\/|\\)(?=cat_app)/
         'javascripts/bookapp.js': /^app(\/|\\)(?=book_app)/
-        'javascripts/app.js': /^app(\/|\\)(?!cat_app)/
+        'javascripts/app.js': /^(?!(cat_app|book_app))/
         'javascripts/vendor.js': /^vendor/
       # Defines compilation order.
       # `vendor` files will be compiled before other ones
@@ -57,7 +57,10 @@ exports.config =
 
     templates:
       defaultExtension: 'hbs'
-      joinTo: 'javascripts/app.js'
+      joinTo:
+        'javascripts/catapp.js': /^app(\/|\\)(?=cat_app)/
+        'javascripts/bookapp.js': /^app(\/|\\)(?=book_app)/
+        'javascripts/app.js': /^(?!(cat_app|book_app))/
 
   # Change this if you're using something other than backbone (e.g. 'ember').
   # Content of files, generated with `brunch generate` depends on the setting.

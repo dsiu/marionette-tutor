@@ -277,3 +277,42 @@ window.require.define({"cat_app/views/angrycats_view": function(exports, require
   
 }});
 
+window.require.define({"cat_app/views/templates/angry_cat-template": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var buffer = "", stack1, foundHelper, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+
+    buffer += "<td>";
+    foundHelper = helpers.rank;
+    stack1 = foundHelper || depth0.rank;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "rank", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "</td>\n<td>";
+    foundHelper = helpers.name;
+    stack1 = foundHelper || depth0.name;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "</td>\n<td><img class=\"angry_cat_pic\" src=\"";
+    foundHelper = helpers.image_path;
+    stack1 = foundHelper || depth0.image_path;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "image_path", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "\" alt=\"\"></td>\n<td>\n    <div class=\"rank_up\"><img class=\"rank_up\" src=\"images/up.gif\" alt=\"\"></div>\n    <div class=\"rank_down\"><img class=\"rank_down\" src=\"images/down.gif\" alt=\"\"></div>\n</td>\n<td>";
+    foundHelper = helpers.votes;
+    stack1 = foundHelper || depth0.votes;
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "votes", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "</td>\n<td><a href=\"#\" class='disqualify'>Disqualify</a></td>\n";
+    return buffer;});
+}});
+
+window.require.define({"cat_app/views/templates/angry_cats-template": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var foundHelper, self=this;
+
+
+    return "<thead>\n<tr class='header'>\n    <th>Rank</th>\n    <th>Name</th>\n    <th>Image</th>\n    <th>Votes</th>\n    <th></th>\n</tr>\n</thead>\n<tbody>\n</tbody>\n";});
+}});
+
